@@ -6,6 +6,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:local_notification/model/notification_repository.dart';
 import 'package:local_notification/model/shared_prefs.dart';
 
+
+enum NotificationType {EVERYDAY, WEEKDAY}
+
 class FlutterLocalNotificationViewModel extends ChangeNotifier {
   final FlutterLocalNotificationRepository flutterLocalNotificationRepository;
 
@@ -128,24 +131,40 @@ class FlutterLocalNotificationViewModel extends ChangeNotifier {
   // }
 
   Future<void> setEverydayNotification(
-      {required hour, required minutes}) async {
+      {required id, required hour, required minutes, required toastText}) async {
     await flutterLocalNotificationRepository.setEveryDayNotification(
-        flnp, everyDayNotificationId, hour, minutes);
+        flnp, id, hour, minutes, toastText);
     notifyListeners();
   }
+
+  // Future<void> setEverydayNotification(
+  //     {required hour, required minutes}) async {
+  //   await flutterLocalNotificationRepository.setEveryDayNotification(
+  //       flnp, everyDayNotificationId, hour, minutes);
+  //   notifyListeners();
+  // }
 
   Future<void> setCancelAllNotification() async {
     await flutterLocalNotificationRepository.cancelAllNotification(flnp);
     isMondayNotificationEnabled = false;
+    _sharedPrefsManager.setBoolOnMonday(false);
     isTuesdayNotificationEnabled = false;
+    _sharedPrefsManager.setBoolOnTuesday(false);
     isWednesdayNotificationEnabled = false;
+    _sharedPrefsManager.setBoolOnWednesday(false);
     isThursdayNotificationEnabled = false;
+    _sharedPrefsManager.setBoolOnThursday(false);
     isFridayNotificationEnabled = false;
+    _sharedPrefsManager.setBoolOnFriday(false);
     isSaturdayNotificationEnabled = false;
+    _sharedPrefsManager.setBoolOnSaturday(false);
     isSundayNotificationEnabled = false;
+    _sharedPrefsManager.setBoolOnSunday(false);
+    isEveryDayNotificationEnabled = false;
+    _sharedPrefsManager.setBoolOnEveryday(false);
+
     isQuicklyNotificationEnabled = false;
     isThreeSecondsNotificationEnabled = false;
-    isEveryDayNotificationEnabled = false;
     isRepeatOneMinutesNotificationEnabled = false;
     notifyListeners();
   }
@@ -235,6 +254,11 @@ class FlutterLocalNotificationViewModel extends ChangeNotifier {
 
   Future<void> sundaySharedPrefsGetBool() async {
     isSundayNotificationEnabled = await _sharedPrefsManager.getBoolOnSunday();
+    notifyListeners();
+  }
+
+  Future<void> everydaySharedPrefsGetBool() async {
+    isEveryDayNotificationEnabled = await _sharedPrefsManager.getBoolOnEveryday();
     notifyListeners();
   }
 
@@ -413,6 +437,12 @@ class FlutterLocalNotificationViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Future<void> everydayNotificationCheckUpdate(isChecked) async{
+  //  isEveryDayNotificationEnabled = isChecked;
+  //  await _sharedPrefsManager.setBoolOnEveryday(isChecked);
+  //  notifyListeners();
+  // }
+
   void notificationCheckUpdate(dateTimeTypeOnWeekDay, isChecked) async{
     if (dateTimeTypeOnWeekDay == mondayDateTime) {
       isMondayNotificationEnabled = isChecked;
@@ -435,7 +465,10 @@ class FlutterLocalNotificationViewModel extends ChangeNotifier {
     } else if (dateTimeTypeOnWeekDay == sundayDateTime) {
       isSundayNotificationEnabled = isChecked;
         await _sharedPrefsManager.setBoolOnSunday(isChecked);
+    }else if(dateTimeTypeOnWeekDay == null){ //毎日通知はDateTimeのWeekdayがないのでNull
+      isEveryDayNotificationEnabled = isChecked;
     }
+
     notifyListeners();
   }
 
@@ -448,20 +481,5 @@ class FlutterLocalNotificationViewModel extends ChangeNotifier {
       setTime.minute, //TimeOfDay
     ).toString();
   }
-
-  // void changeText() { //test
-//   text = 'テキストが変わった';
-//   notifyListeners();
-// }
-
-// void changeText(weekTimeOfDay, TimeOfDay setTime) {
-//   weekTimeOfDay = setTime;
-//   notifyListeners();
-// }
-
-// void changeTest(TimeOfDay setTime) { //test
-//   test = setTime;
-//   notifyListeners();
-// }
 
 }

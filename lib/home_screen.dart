@@ -57,55 +57,80 @@ class _HomeScreenState extends State<HomeScreen> {
               //     }
               //     ),
               _notificationCheckListTile(
-                isNotificationEnabled: vm.isMondayNotificationEnabled,
-                TimeOfDayOnWeek: vm.mondayTimeOfDay,
-                dateTimeWeekday: vm.mondayDateTime,
-                stringWeekday: "月曜日",
-                notificationId: vm.mondayNotificationId,
+                  isNotificationEnabled: vm.isMondayNotificationEnabled,
+                  weekOrEverydayTimeOfDay: vm.mondayTimeOfDay,
+                  dateTimeWeekday: vm.mondayDateTime,
+                  stringMessageText: "月曜日",
+                  notificationId: vm.mondayNotificationId,
+                  enumType: NotificationType.WEEKDAY,
               ),
               _notificationCheckListTile(
-                  isNotificationEnabled: vm.isTuesdayNotificationEnabled,
-                  TimeOfDayOnWeek: vm.tuesdayTimeOfDay,
-                  dateTimeWeekday: vm.tuesdayDateTime,
-                  stringWeekday: "火曜日",
-                  notificationId: vm.tuesdayNotificationId,
+                isNotificationEnabled: vm.isTuesdayNotificationEnabled,
+                weekOrEverydayTimeOfDay: vm.tuesdayTimeOfDay,
+                dateTimeWeekday: vm.tuesdayDateTime,
+                stringMessageText: "火曜日",
+                notificationId: vm.tuesdayNotificationId,
+                enumType: NotificationType.WEEKDAY,
               ),
               _notificationCheckListTile(
-                  isNotificationEnabled: vm.isWednesdayNotificationEnabled,
-                  TimeOfDayOnWeek: vm.wednesdayTimeOfDay,
-                  dateTimeWeekday: vm.wednesdayDateTime,
-                  stringWeekday: "水曜日",
-                  notificationId: vm.wednesdayNotificationId,
-              ),
-               _notificationCheckListTile(
-                  isNotificationEnabled: vm.isThursdayNotificationEnabled, 
-                  TimeOfDayOnWeek: vm.thursdayTimeOfDay, 
-                  dateTimeWeekday: vm.thursdayDateTime,
-                  stringWeekday: "木曜日", 
-                  notificationId: vm.thursdayNotificationId,
-               ),
-              _notificationCheckListTile(
-                  isNotificationEnabled: vm.isFridayNotificationEnabled,
-                  TimeOfDayOnWeek: vm.fridayTimeOfDay,
-                  dateTimeWeekday: vm.fridayDateTime,
-                  stringWeekday: "金曜日",
-                  notificationId: vm.fridayNotificationId,
+                isNotificationEnabled: vm.isWednesdayNotificationEnabled,
+                weekOrEverydayTimeOfDay: vm.wednesdayTimeOfDay,
+                dateTimeWeekday: vm.wednesdayDateTime,
+                stringMessageText: "水曜日",
+                notificationId: vm.wednesdayNotificationId,
+                enumType: NotificationType.WEEKDAY,
               ),
               _notificationCheckListTile(
-                  isNotificationEnabled: vm.isSaturdayNotificationEnabled,
-                  TimeOfDayOnWeek: vm.saturdayTimeOfDay,
-                  dateTimeWeekday: vm.saturdayDateTime,
-                  stringWeekday: "土曜日",
-                  notificationId: vm.saturdayNotificationId,
+                isNotificationEnabled: vm.isThursdayNotificationEnabled,
+                weekOrEverydayTimeOfDay: vm.thursdayTimeOfDay,
+                dateTimeWeekday: vm.thursdayDateTime,
+                stringMessageText: "木曜日",
+                notificationId: vm.thursdayNotificationId,
+                enumType: NotificationType.WEEKDAY,
               ),
               _notificationCheckListTile(
-                  isNotificationEnabled: vm.isSundayNotificationEnabled,
-                  TimeOfDayOnWeek: vm.sundayTimeOfDay,
-                  dateTimeWeekday: vm.sundayDateTime,
-                  stringWeekday: "日曜日",
-                  notificationId: vm.sundayNotificationId,
+                isNotificationEnabled: vm.isFridayNotificationEnabled,
+                weekOrEverydayTimeOfDay: vm.fridayTimeOfDay,
+                dateTimeWeekday: vm.fridayDateTime,
+                stringMessageText: "金曜日",
+                notificationId: vm.fridayNotificationId,
+                enumType: NotificationType.WEEKDAY,
               ),
-
+              _notificationCheckListTile(
+                isNotificationEnabled: vm.isSaturdayNotificationEnabled,
+                weekOrEverydayTimeOfDay: vm.saturdayTimeOfDay,
+                dateTimeWeekday: vm.saturdayDateTime,
+                stringMessageText: "土曜日",
+                notificationId: vm.saturdayNotificationId,
+                enumType: NotificationType.WEEKDAY,
+              ),
+              _notificationCheckListTile(
+                isNotificationEnabled: vm.isSundayNotificationEnabled,
+                weekOrEverydayTimeOfDay: vm.sundayTimeOfDay,
+                dateTimeWeekday: vm.sundayDateTime,
+                stringMessageText: "日曜日",
+                notificationId: vm.sundayNotificationId,
+                enumType: NotificationType.WEEKDAY,
+              ),
+              _notificationCheckListTile(
+                isNotificationEnabled: vm.isEveryDayNotificationEnabled,
+                weekOrEverydayTimeOfDay: vm.everyDayTimeOfDay,
+                //毎日通知は曜日いらない
+                stringMessageText: "毎日",
+                notificationId: vm.everyDayNotificationId,
+                enumType: NotificationType.EVERYDAY,
+              ),
+              ListTile(
+                title: Text("全ての通知をキャンセルする"),
+                leading: Icon(Icons.cancel_outlined),
+                onTap: (){
+                  showDialog(
+                      context: context,
+                      builder: (_) =>
+                          _cancelAllAndDialog()
+                  );
+                },
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -144,22 +169,26 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ElevatedButton(
-                    child: Text(
-                      '毎日通知',
-                    ),
-                    onPressed: () async {
-                      // return _everydayOnTimepicker(
-                      //     context, vm.everyDayTimeOfDay);
-                      return _everydayOnTimepicker();
-                    },
-                  ),
+                  // ElevatedButton(
+                  //   child: Text(
+                  //     '毎日通知',
+                  //   ),
+                  //   onPressed: () async {
+                  //     return _everydayOnTimepicker();
+                  //   },
+                  // ),
                   Text("vm.everyDay${vm.everyDayTimeOfDay.toString()}"),
                 ],
               ),
+
               ElevatedButton(
                   onPressed: () {
-                    vm.setCancelAllNotification();
+                    showDialog(
+                        context: context,
+                        builder: (_) =>
+                        _cancelAllAndDialog()
+                                );
+                    // vm.setCancelAllNotification();
                   },
                   child: Text("全ての通知をキャンセル")),
             ]),
@@ -170,45 +199,49 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
-
-
-
-   Future<void> _everydayOnTimepicker() async {
+  Future<void> _everydayOnTimepicker({
+    required weekdayTimeOfDay,
+    required id,
+    required stringWeekDayText,
+    required notificationEnabled,
+}
+     ) async {
     final vm = context.read<FlutterLocalNotificationViewModel>();
-
     final setTime =
-        await _everydayAndWeekdayCommonTimePicker(vm.everyDayTimeOfDay);
+    await _everydayAndWeekdayCommonTimePicker(vm.everyDayTimeOfDay);
     if (setTime != null) {
-      vm.changeEveryDayTimeOfDay(setTime); //謎
+      vm.changeEveryDayTimeOfDay(setTime);
       vm.setEverydayNotification(
-        hour: setTime.hour,
-        minutes: setTime.minute,
+          id: id,
+          hour: setTime.hour,
+          minutes: setTime.minute,
+          toastText: stringWeekDayText
       );
-      print("weekTimeOfDay${vm.everyDayTimeOfDay}");
-      // vm.changeText(weekTimeOfDay, setTime);
-
+      //setTime（タイムピッカー）で何か設定したらtrue
+      // vm.everydayNotificationCheckUpdate(true);
+    } else if (setTime == null) {
+      //setTime（タイムピッカー）で何も設定しなかったたらFalse
+      vm.notificationCheckUpdate(null, false);
     }
   }
 
-  Future<void> _weekdayOnTimepicker(
-    context,
-    weekdayTimeOfDay,
-    id,
-    WeekdayDateTime,
-    stringWeekDayText,
-    notificationEnabled,
-  ) async {
-    final BuildContext _BuildContext = context;
-    final vm = _BuildContext.read<FlutterLocalNotificationViewModel>();
-    final setTime = await _everydayAndWeekdayCommonTimePicker(weekdayTimeOfDay);
+  Future<void> _weekdayOnTimepicker(// context,
+      weekdayTimeOfDay,
+      id,
+      WeekdayDateTime,
+      stringWeekDayText,
+      // notificationEnabled,
+      ) async {
+    final vm = context.read<FlutterLocalNotificationViewModel>();
+    final setTime =
+          await _everydayAndWeekdayCommonTimePicker(weekdayTimeOfDay);
     if (setTime != null) {
       //setTime（タイムピッカー）で何か設定したらtrue
-      // weekdayTimeOfDay = setTime; //TODO サブタイトルの時間変わらない、先生に聞いてみるべき
-      vm.changeWeekdayText(WeekdayDateTime, setTime); //TODO 変わる、先生に聞いてみるべき
+      vm.changeWeekdayText(WeekdayDateTime, setTime);
       vm.setWeekday(
           id, setTime.hour, setTime.minute, WeekdayDateTime, stringWeekDayText);
 
-      vm.notificationCheckUpdate(WeekdayDateTime, true);
+      // vm.notificationCheckUpdate(WeekdayDateTime, true);
     } else if (setTime == null) {
       //setTime（タイムピッカー）で何も設定しなかったたらFalse
       vm.notificationCheckUpdate(WeekdayDateTime, false);
@@ -226,34 +259,29 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-    _changeSubTitle(
+  _changeSubTitle(
       {required bool isNotificationEnabled, required TimeOfDay weekTimeOfDay}) {
     return isNotificationEnabled
         ? Text("通知する時間:${weekTimeOfDay.hour}時${weekTimeOfDay.minute}分")
-        : Text("通知なし ** 時 ** 分");
+        : Text("通知なし");
   }
 
-  _changeSubTitleSecond(
-      {required bool isNotificationEnabled, required String weekTimeOfDay}) {
-    return isNotificationEnabled
-        ? Text("通知する時間:${weekTimeOfDay}")
-        : Text("通知なし ** 時 ** 分");
-  }
 
   void initSharePrefs() {
     final vm = context.read<FlutterLocalNotificationViewModel>();
-     vm.mondaySharedPrefsGetBool();
-     // print("mondaySharedPrefsGetBool${vm.mondaySharedPrefsGetBool}");
+    vm.mondaySharedPrefsGetBool();
+    // print("mondaySharedPrefsGetBool${vm.mondaySharedPrefsGetBool}");
     vm.tuesdaySharedPrefsGetBool();
     vm.wednesdaySharedPrefsGetBool();
     vm.thursdaySharedPrefsGetBool();
     vm.fridaySharedPrefsGetBool();
     vm.saturdaySharedPrefsGetBool();
     vm.sundaySharedPrefsGetBool();
+    vm.everydaySharedPrefsGetBool();
     vm.mondaySharedPrefsGetTime();
     // print("mondaySharedPrefsGetTime${vm.mondaySharedPrefsGetTime}");
     print("testDateTime$testDateTime");
-    testTimeOfDay =  TimeOfDay.fromDateTime(testDateTime);
+    testTimeOfDay = TimeOfDay.fromDateTime(testDateTime);
     print("testTimeOfDay$testTimeOfDay");
     // vm.tuesdaySharedPrefsGetTime();
     // vm.wednesdaySharedPrefsGetTime();
@@ -269,57 +297,91 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _notificationCheckListTile({
     required isNotificationEnabled,
-    required TimeOfDayOnWeek,
-    required dateTimeWeekday,
-    required stringWeekday,
+    required weekOrEverydayTimeOfDay,
+     dateTimeWeekday,
+    required stringMessageText,
     required notificationId,
-  }){
+    required enumType,
+  }) {
     final vm = context.read<FlutterLocalNotificationViewModel>();
-    return  Card(
-      child: CheckboxListTile(
-          title: Text(stringWeekday),
-          subtitle: _changeSubTitle(
-            isNotificationEnabled: isNotificationEnabled,
-            weekTimeOfDay: TimeOfDayOnWeek,
-          ),
-          activeColor: Colors.red,
-          checkColor: Colors.white,
-          secondary: Icon(Icons.notifications,
+    return CheckboxListTile(
+        title: Text(stringMessageText),
+        subtitle: _changeSubTitle(
+          isNotificationEnabled: isNotificationEnabled,
+          weekTimeOfDay: weekOrEverydayTimeOfDay,
+        ),
+        activeColor: Colors.red,
+        checkColor: Colors.white,
+        secondary: Icon(Icons.notifications,
           color: isNotificationEnabled ? Colors.red : Colors.grey,
           // color: Colors.red,
-          ),
-          controlAffinity: ListTileControlAffinity.trailing,
-          value: isNotificationEnabled,
-          onChanged: (isChecked) async {
-            isNotificationEnabled = isChecked!;
-            vm.notificationCheckUpdate(dateTimeWeekday, isChecked);
+        ),
+        controlAffinity: ListTileControlAffinity.trailing,
+        value: isNotificationEnabled,
+        onChanged: (isChecked) async {
+          isNotificationEnabled = isChecked!;
+          vm.notificationCheckUpdate(dateTimeWeekday, isChecked);
+          if (enumType == NotificationType.EVERYDAY) {
+            if (isNotificationEnabled == true) {
+              //チェックがついたとき、通知ON
+              await _everydayOnTimepicker(
+                  weekdayTimeOfDay: weekOrEverydayTimeOfDay,
+                  id: notificationId,
+                  stringWeekDayText: stringMessageText,
+                  notificationEnabled: isNotificationEnabled);
+            } else if (isNotificationEnabled == false){
+              //チェックが外れているとき、通知OFF（キャンセル）
+              await vm.setCancelNotification(
+                  NotificationId: notificationId,
+                  toastMessage: stringMessageText);
+            }
+          } else if (enumType == NotificationType.WEEKDAY) {
             if (isNotificationEnabled == true) {
               //チェックがついたとき、通知ON
               await _weekdayOnTimepicker(
-                  context,
-                  TimeOfDayOnWeek,
-                  notificationId,
-                  dateTimeWeekday,
-                  stringWeekday,
-                  isNotificationEnabled);
-              // setBoolTrue;
-              // vm.mondaySharedPrefsSetBool(true);
-              print(isNotificationEnabled);
-
+                weekOrEverydayTimeOfDay,
+                notificationId,
+                dateTimeWeekday,
+                stringMessageText,
+              );
             } else {
               //チェックが外れているとき、通知OFF（キャンセル）
               await vm.setCancelNotification(
                   NotificationId: notificationId,
-                  toastMessage: stringWeekday);
-              // vm.mondaySharedPrefsSetBool(false);
-              // setBoolFalse;
-              print(isNotificationEnabled);
-
+                  toastMessage: stringMessageText);
             }
           }
+        }
+    );
+  }
+
+  _cancelAllAndDialog() {
+    final vm = context.read<FlutterLocalNotificationViewModel>();
+    return AlertDialog(
+      title: Text(
+        "全ての通知をキャンセルしますか？",
+        style: TextStyle(fontSize: 14),
+        textAlign: TextAlign.center,
+      ),
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          TextButton(
+            onPressed:  (){
+              vm.setCancelAllNotification();
+              Navigator.pop(context);
+            },
+            child: Text("はい"),
+          ),
+          TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("いいえ"))
+        ],
       ),
     );
   }
- }
+}
 
 

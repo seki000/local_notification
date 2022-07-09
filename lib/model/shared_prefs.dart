@@ -8,6 +8,7 @@ const PREF_KEY_NOTIFICATION_THURSDAY_TIME = "thursday_time_id";
 const PREF_KEY_NOTIFICATION_FRIDAY_TIME = "friday_time_id";
 const PREF_KEY_NOTIFICATION_SATURDAY_TIME = "saturday_time_id";
 const PREF_KEY_NOTIFICATION_SUNDAY_TIME = "sunday_time_id";
+const PREF_KEY_NOTIFICATION_EVERYDAY_TIME = "everyday_time_id";
 
 const PREF_KEY_NOTIFICATION_MONDAY_CHECK = "monday_check_id";
 const PREF_KEY_NOTIFICATION_TUESDAY_CHECK = "tuesday_check_id";
@@ -16,6 +17,7 @@ const PREF_KEY_NOTIFICATION_THURSDAY_CHECK = "thursday_check_id";
 const PREF_KEY_NOTIFICATION_FRIDAY_CHECK = "friday_check_id";
 const PREF_KEY_NOTIFICATION_SATURDAY_CHECK = "saturday_check_id";
 const PREF_KEY_NOTIFICATION_SUNDAY_CHECK = "sunday_check_id";
+const PREF_KEY_NOTIFICATION_EVERYDAY_CHECK = "everyday_check_id";
 
 
 
@@ -90,9 +92,19 @@ class SharedPrefsManager {
     return await prefs.getBool(PREF_KEY_NOTIFICATION_SUNDAY_CHECK)  ?? false;
   }
 
+  Future<bool> getBoolOnEveryday() async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.getBool(PREF_KEY_NOTIFICATION_EVERYDAY_CHECK)  ?? false;
+  }
+
   Future<bool> setBoolOnSunday(isChecked) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.setBool(PREF_KEY_NOTIFICATION_SUNDAY_CHECK, isChecked);
+  }
+
+  Future<bool> setBoolOnEveryday(isChecked) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setBool(PREF_KEY_NOTIFICATION_EVERYDAY_CHECK, isChecked);
   }
 
 
@@ -196,6 +208,8 @@ class SharedPrefsManager {
     }
     return stringTimeOfDay;
   }
+
+
 
 
 

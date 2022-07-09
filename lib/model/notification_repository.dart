@@ -280,17 +280,17 @@ class FlutterLocalNotificationRepository {
     );
   }
 
- Future<void> everyDayNotification(BuildContext context, FlutterLocalNotificationsPlugin flnp, int id, TimeOfDay everyDayTimeOfDay) async{
-     final initialTime = everyDayTimeOfDay; //TODO 動作確認後消す
-     final TimeOfDay? setTime =
-         await _everydayAndWeekdayCommonShowTimepicker(context, initialTime);
-     if (setTime != null) {
-       everyDayTimeOfDay = setTime;
-       setEveryDayNotification(flnp, id, setTime.hour, setTime.minute);
-     }
-  }
+ // Future<void> everyDayNotification(BuildContext context, FlutterLocalNotificationsPlugin flnp, int id, TimeOfDay everyDayTimeOfDay, String toastText) async{
+ //     final initialTime = everyDayTimeOfDay; //TODO 動作確認後消す
+ //     final TimeOfDay? setTime =
+ //         await _everydayAndWeekdayCommonShowTimepicker(context, initialTime);
+ //     if (setTime != null) {
+ //       everyDayTimeOfDay = setTime;
+ //       setEveryDayNotification(flnp, id, setTime.hour, setTime.minute, toastText);
+ //     }
+ //  }
 
-  Future<void> setEveryDayNotification(flnp, id, hour, minutes) async {
+  Future<void> setEveryDayNotification(flnp, id, hour, minutes, toastText) async {
     await flnp.zonedSchedule(
         id, //IDは被ると上書きされるので、他と違う物を
         'Title:${hour}時${minutes}分に通知', //行けたかも
@@ -313,7 +313,7 @@ class FlutterLocalNotificationRepository {
     );
 
     Fluttertoast.showToast(
-      msg: "${hour}時${minutes}分に登録完了しました",
+      msg: "${toastText}${hour}時${minutes}分に通知します。",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,);
   }
