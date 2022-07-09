@@ -24,12 +24,13 @@ class SharedPrefsManager {
   //曜日ごとのチェックボックスの値の保存と読み込み
   Future<bool> getBoolOnMonday() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // print("getBoolOnMonday");
     return await prefs.getBool(PREF_KEY_NOTIFICATION_MONDAY_CHECK)  ?? false;
   }
 
   Future<bool> setBoolOnMonday(isChecked) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    print("test");
+    print("setBoolOnMonday");
     return await prefs.setBool(PREF_KEY_NOTIFICATION_MONDAY_CHECK, isChecked);
     // return await prefs.setBool(PREF_KEY_NOTIFICATION_MONDAY_CHECK, isChecked);
   }
@@ -100,80 +101,86 @@ class SharedPrefsManager {
   Future<String> getTimeOnMonday() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.getString(PREF_KEY_NOTIFICATION_MONDAY_TIME) ?? DateTime.now().toString() ;
+    // return await prefs.getString(PREF_KEY_NOTIFICATION_MONDAY_TIME) ?? DateTime.now().toString() ;
   }
 
-  Future<String?> getTimeOnTuesday() async{
+  Future<String> getTimeOnTuesday() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.getString(PREF_KEY_NOTIFICATION_TUESDAY_TIME) ?? DateTime.now().toString() ;
   }
 
-  Future<String?> getTimeOnWednesday() async{
+  Future<String> getTimeOnWednesday() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.getString(PREF_KEY_NOTIFICATION_WEDNESDAY_TIME) ?? DateTime.now().toString() ;
   }
 
-  Future<String?> getTimeOnThursday() async{
+  Future<String> getTimeOnThursday() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.getString(PREF_KEY_NOTIFICATION_THURSDAY_TIME) ?? DateTime.now().toString() ;
   }
 
-  Future<String?> getTimeOnFriday() async{
+  Future<String> getTimeOnFriday() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.getString(PREF_KEY_NOTIFICATION_FRIDAY_TIME) ?? DateTime.now().toString() ;
   }
 
-  Future<String?> getTimeOnSaturday() async{
+  Future<String> getTimeOnSaturday() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.getString(PREF_KEY_NOTIFICATION_SATURDAY_TIME) ?? DateTime.now().toString() ;
   }
 
-  Future<String?> getTimeOnSunday() async{
+  Future<String> getTimeOnSunday() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.getString(PREF_KEY_NOTIFICATION_SUNDAY_TIME) ?? DateTime.now().toString() ;
   }
 
 
-  Future<String?> setTimeOnMonday(stringTimeOfDay) async{
+  Future<void> setTimeOnMonday(stringTimeOfDay) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-     await prefs.setString(PREF_KEY_NOTIFICATION_MONDAY_TIME, stringTimeOfDay);
-     // await prefs.setString(PREF_KEY_NOTIFICATION_MONDAY_TIME, stringTimeOfDay);
-     return null;
+    print("stringTimeOfDay$stringTimeOfDay");
+
+    await prefs.setString(PREF_KEY_NOTIFICATION_MONDAY_TIME, stringTimeOfDay.toString()); //tODO stringTimeOfDayがNullになる
+    print("stringTimeOfDay$stringTimeOfDay");
+
+    // await prefs.setString(PREF_KEY_NOTIFICATION_MONDAY_TIME, stringTimeOfDay);
+    //  return null;
   }
 
-  Future<String?> setTimeOnTuesday(stringTimeOfDay) async{
+  Future<void> setTimeOnTuesday(stringTimeOfDay) async{
+  // Future<String?> setTimeOnTuesday(stringTimeOfDay) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(PREF_KEY_NOTIFICATION_TUESDAY_TIME, stringTimeOfDay);
-    return null;
+    // return null;
   }
 
-  Future<String?> setTimeOnWednesday(stringTimeOfDay) async{
+  Future<void> setTimeOnWednesday(stringTimeOfDay) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(PREF_KEY_NOTIFICATION_WEDNESDAY_TIME, stringTimeOfDay);
-    return null;
+    // return null;
   }
 
-  Future<String?> setTimeOnThursday(stringTimeOfDay) async{
+  Future<void> setTimeOnThursday(stringTimeOfDay) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(PREF_KEY_NOTIFICATION_THURSDAY_TIME, stringTimeOfDay);
-    return null;
+    // return null;
   }
 
-  Future<String?> setTimeOnFriday(stringTimeOfDay) async{
+  Future<void> setTimeOnFriday(stringTimeOfDay) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(PREF_KEY_NOTIFICATION_FRIDAY_TIME, stringTimeOfDay);
-    return null;
+    // return null;
   }
 
-  Future<String?> setTimeOnSaturday(stringTimeOfDay) async{
+  Future<void> setTimeOnSaturday(stringTimeOfDay) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(PREF_KEY_NOTIFICATION_SATURDAY_TIME, stringTimeOfDay);
-    return null;
+    // return null;
   }
 
-  Future<String?> setTimeOnSunday(stringTimeOfDay) async{
+  Future<void> setTimeOnSunday(stringTimeOfDay) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(PREF_KEY_NOTIFICATION_SUNDAY_TIME, stringTimeOfDay);
-    return null;
+    // return null;
   }
 
   String _changeString(stringTimeOfDay) {

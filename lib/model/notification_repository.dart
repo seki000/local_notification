@@ -10,9 +10,6 @@ import 'package:timezone/data/latest.dart' as tz;
 import '../payload_screen.dart';
 
 class FlutterLocalNotificationRepository {
- var wednesdaySetTIme = 0;
-
-
 
   Future<void> initTimeAndNotification(context,
       FlutterLocalNotificationsPlugin flnp) async {

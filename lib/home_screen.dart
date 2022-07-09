@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:local_notification/parts/custom_checkboxListTile.dart';
 import 'package:local_notification/viewmodel/view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -9,6 +8,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  var testDateTime = DateTime.now(); //TODO 後で消す
+  var testTimeOfDay = TimeOfDay.now(); //TODO 後で消す
+
 
   @override
   void initState() {
@@ -26,13 +28,13 @@ class _HomeScreenState extends State<HomeScreen> {
         return Scaffold(
           body: SingleChildScrollView(
             child: Column(children: [
-              // CustomCheckBoxListTile(
-              //     titleText: Text("月曜日に通知"),
-              //     timeSubtitle: _changeSubTitle(
+              // CheckboxListTile(
+              //     title: Text("月曜日に通知"),
+              //     subtitle: _changeSubTitleSecond(
               //       isNotificationEnabled: vm.isMondayNotificationEnabled,
-              //       weekTimeOfDay: vm.mondayTimeOfDay,
+              //       weekTimeOfDay: vm.stringMondayTime,
               //     ),
-              //     isNotificationEnabled: vm.isMondayNotificationEnabled,
+              //     value: vm.isMondayNotificationEnabled,
               //     onChanged: (isChecked) async {
               //       vm.isMondayNotificationEnabled = isChecked!; //TODO これは変わる
               //       if (vm.isMondayNotificationEnabled == true) {
@@ -44,13 +46,13 @@ class _HomeScreenState extends State<HomeScreen> {
               //             DateTime.monday,
               //             "月曜日",
               //             vm.isMondayNotificationEnabled);
-              //         vm.mondaySharedPrefsSetBool(true);
+              //         // vm.mondaySharedPrefsSetBool(true);
               //       } else {
               //         //チェックが外れているとき、通知OFF（キャンセル）
               //         await vm.setCancelNotification(
               //             NotificationId: vm.mondayNotificationId,
               //             toastMessage: "月曜日");
-              //         vm.mondaySharedPrefsSetBool(false);
+              //         // vm.mondaySharedPrefsSetBool(false);
               //       }
               //     }
               //     ),
@@ -58,10 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 isNotificationEnabled: vm.isMondayNotificationEnabled,
                 TimeOfDayOnWeek: vm.mondayTimeOfDay,
                 dateTimeWeekday: vm.mondayDateTime,
-                stringWeekday: "火曜日",
+                stringWeekday: "月曜日",
                 notificationId: vm.mondayNotificationId,
-                setBoolTrue: vm.mondaySharedPrefsSetBool(true),
-                setBoolFalse: vm.mondaySharedPrefsSetBool(false),
               ),
               _notificationCheckListTile(
                   isNotificationEnabled: vm.isTuesdayNotificationEnabled,
@@ -69,8 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   dateTimeWeekday: vm.tuesdayDateTime,
                   stringWeekday: "火曜日",
                   notificationId: vm.tuesdayNotificationId,
-                  setBoolTrue: vm.tuesdaySharedPrefsSetBool(true),
-                  setBoolFalse: vm.tuesdaySharedPrefsSetBool(false),
               ),
               _notificationCheckListTile(
                   isNotificationEnabled: vm.isWednesdayNotificationEnabled,
@@ -78,40 +76,35 @@ class _HomeScreenState extends State<HomeScreen> {
                   dateTimeWeekday: vm.wednesdayDateTime,
                   stringWeekday: "水曜日",
                   notificationId: vm.wednesdayNotificationId,
-                  setBoolTrue: vm.wednesdaySharedPrefsSetBool(true),
-                  setBoolFalse: vm.wednesdaySharedPrefsSetBool(false)),
+              ),
                _notificationCheckListTile(
                   isNotificationEnabled: vm.isThursdayNotificationEnabled, 
                   TimeOfDayOnWeek: vm.thursdayTimeOfDay, 
                   dateTimeWeekday: vm.thursdayDateTime,
                   stringWeekday: "木曜日", 
-                  notificationId: vm.thursdayNotificationId, 
-                  setBoolTrue: vm.thursdaySharedPrefsSetBool(true),
-                  setBoolFalse: vm.thursdaySharedPrefsSetBool(false)),
+                  notificationId: vm.thursdayNotificationId,
+               ),
               _notificationCheckListTile(
                   isNotificationEnabled: vm.isFridayNotificationEnabled,
                   TimeOfDayOnWeek: vm.fridayTimeOfDay,
                   dateTimeWeekday: vm.fridayDateTime,
                   stringWeekday: "金曜日",
                   notificationId: vm.fridayNotificationId,
-                  setBoolTrue: vm.fridaySharedPrefsSetBool(true),
-                  setBoolFalse: vm.fridaySharedPrefsSetBool(false)),
+              ),
               _notificationCheckListTile(
                   isNotificationEnabled: vm.isSaturdayNotificationEnabled,
                   TimeOfDayOnWeek: vm.saturdayTimeOfDay,
                   dateTimeWeekday: vm.saturdayDateTime,
                   stringWeekday: "土曜日",
                   notificationId: vm.saturdayNotificationId,
-                  setBoolTrue: vm.saturdaySharedPrefsSetBool(true),
-                  setBoolFalse: vm.saturdaySharedPrefsSetBool(false)),
+              ),
               _notificationCheckListTile(
                   isNotificationEnabled: vm.isSundayNotificationEnabled,
                   TimeOfDayOnWeek: vm.sundayTimeOfDay,
                   dateTimeWeekday: vm.sundayDateTime,
                   stringWeekday: "日曜日",
                   notificationId: vm.sundayNotificationId,
-                  setBoolTrue: vm.sundaySharedPrefsSetBool(true),
-                  setBoolFalse: vm.sundaySharedPrefsSetBool(false)),
+              ),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -176,50 +169,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Widget _notificationCheckBoxListTile({
-  //   required stringTitle,
-  //   required weekdayTimeOfDay,
-  //   required isNotificationEnabled,
-  //   required notificationId,
-  //   required WeekdayOnDateTime,
-  //   required setBoolTrue,
-  //   required setBoolFalse,
-  // }) {
-  //   final vm = context.read<FlutterLocalNotificationViewModel>();
-  //   return Card(
-  //       child: CheckboxListTile(
-  //     //金曜
-  //     title: Text(stringTitle),
-  //     subtitle: _changeSubTitle(
-  //       isNotificationEnabled: isNotificationEnabled,
-  //       weekTimeOfDay: weekdayTimeOfDay,
-  //     ),
-  //     activeColor: Colors.red,
-  //     checkColor: Colors.white,
-  //     // secondary: Icon(Icons.face),
-  //     controlAffinity: ListTileControlAffinity.leading,
-  //     value: isNotificationEnabled,
-  //     onChanged: (isChecked) async {
-  //       vm.notificationCheckUpdate(WeekdayOnDateTime, isChecked);
-  //       // vm.isTuesdayNotificationEnabled = isChecked!;
-  //       // isNotificationEnabled = isChecked!; //TODO 変わらない
-  //
-  //       _notificationCheckBoxValue(
-  //         isNotificationEnabled: isNotificationEnabled,
-  //         weekTimeOfDay: weekdayTimeOfDay,
-  //         stringWeekDayText: stringTitle,
-  //         id: notificationId,
-  //         weekdayTimeOfDay: WeekdayOnDateTime,
-  //         setBoolTrue: vm.tuesdaySharedPrefsSetBool(true),
-  //         setBoolFalse: vm.tuesdaySharedPrefsSetBool(false),
-  //
-  //         // SharedPrefsSetBool:,
-  //       );
-  //     },
-  //   ));
-  // }
 
-  Future<void> _everydayOnTimepicker() async {
+
+
+
+   Future<void> _everydayOnTimepicker() async {
     final vm = context.read<FlutterLocalNotificationViewModel>();
 
     final setTime =
@@ -255,7 +209,6 @@ class _HomeScreenState extends State<HomeScreen> {
           id, setTime.hour, setTime.minute, WeekdayDateTime, stringWeekDayText);
 
       vm.notificationCheckUpdate(WeekdayDateTime, true);
-      // vm.isMondayNotificationEnabled = true;
     } else if (setTime == null) {
       //setTime（タイムピッカー）で何も設定しなかったたらFalse
       vm.notificationCheckUpdate(WeekdayDateTime, false);
@@ -273,42 +226,24 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<void> _notificationCheckBox({
-    required isNotificationEnabled,
-    required id,
-    required DateTimeTypeOnWeekDay,
-    required stringWeekDayText,
-    required weekTimeOfDay,
-    required SharedPrefsSetBool,
-  }) async {
-    final vm = context.read<FlutterLocalNotificationViewModel>();
-    if (isNotificationEnabled == true) {
-      //チェックがついたとき、通知ON
-      // await _weekdayOnTimepicker(
-      //     context, weekTimeOfDay, id, DateTimeTypeOnWeekDay, stringWeekDayText, );
-      print("isNotificationEnabled:(${vm.isMondayNotificationEnabled})");
-      // vm.mondaySharedPrefsSetBool(true);
-      vm.setBool(weekTimeOfDay, true);
-    } else {
-      //チェックが外れているとき、通知OFF（キャンセル）
-      await vm.setCancelNotification(
-          NotificationId: id, toastMessage: stringWeekDayText);
-      print("isNotificationEnabled:(${vm.isMondayNotificationEnabled})");
-      // vm.mondaySharedPrefsSetBool(false);
-      vm.setBool(weekTimeOfDay, false);
-    }
-  }
-
-  _changeSubTitle(
+    _changeSubTitle(
       {required bool isNotificationEnabled, required TimeOfDay weekTimeOfDay}) {
     return isNotificationEnabled
         ? Text("通知する時間:${weekTimeOfDay.hour}時${weekTimeOfDay.minute}分")
         : Text("通知なし ** 時 ** 分");
   }
 
+  _changeSubTitleSecond(
+      {required bool isNotificationEnabled, required String weekTimeOfDay}) {
+    return isNotificationEnabled
+        ? Text("通知する時間:${weekTimeOfDay}")
+        : Text("通知なし ** 時 ** 分");
+  }
+
   void initSharePrefs() {
     final vm = context.read<FlutterLocalNotificationViewModel>();
-    vm.mondaySharedPrefsGetBool();
+     vm.mondaySharedPrefsGetBool();
+     // print("mondaySharedPrefsGetBool${vm.mondaySharedPrefsGetBool}");
     vm.tuesdaySharedPrefsGetBool();
     vm.wednesdaySharedPrefsGetBool();
     vm.thursdaySharedPrefsGetBool();
@@ -316,83 +251,73 @@ class _HomeScreenState extends State<HomeScreen> {
     vm.saturdaySharedPrefsGetBool();
     vm.sundaySharedPrefsGetBool();
     vm.mondaySharedPrefsGetTime();
+    // print("mondaySharedPrefsGetTime${vm.mondaySharedPrefsGetTime}");
+    print("testDateTime$testDateTime");
+    testTimeOfDay =  TimeOfDay.fromDateTime(testDateTime);
+    print("testTimeOfDay$testTimeOfDay");
     // vm.tuesdaySharedPrefsGetTime();
     // vm.wednesdaySharedPrefsGetTime();
     // vm.thursdaySharedPrefsGetTime();
     // vm.fridaySharedPrefsGetTime();
     // vm.saturdaySharedPrefsGetTime();
     // vm.sundaySharedPrefsGetTime();
+
+    // String timeOnMondayString = "TimeOfDay(08:30)";
+//   final timeOnMonday = DateTime.parse(timeOnMondayString);
+//   print(timeOnMonday);
   }
 
-  Future<void> _notificationCheckBoxValue({
-    required isNotificationEnabled,
-    required id,
-    required weekdayTimeOfDay,
-    required stringWeekDayText,
-    required weekTimeOfDay,
-    required setBoolTrue,
-    required setBoolFalse,
-    // required SharedPrefsSetBool,
-  }) async {
-    final vm = context.read<FlutterLocalNotificationViewModel>();
-    if (isNotificationEnabled == true) {
-      //チェックがついたとき、通知ON
-      await _weekdayOnTimepicker(context, weekTimeOfDay, id, weekdayTimeOfDay,
-          stringWeekDayText, isNotificationEnabled);
-      setBoolTrue;
-      print("isNotificationEnabled:(${isNotificationEnabled})");
-    } else {
-      // isNotificationEnabled = false;
-      //チェックが外れているとき、通知OFF（キャンセル）
-      await vm.setCancelNotification(
-          NotificationId: id, toastMessage: stringWeekDayText);
-      setBoolFalse;
-      print("isNotificationEnabled:(${isNotificationEnabled})");
-    }
-  }
-  
-  
-  _notificationCheckListTile({
+  Widget _notificationCheckListTile({
     required isNotificationEnabled,
     required TimeOfDayOnWeek,
     required dateTimeWeekday,
     required stringWeekday,
     required notificationId,
-    required setBoolTrue,
-    required setBoolFalse,
   }){
     final vm = context.read<FlutterLocalNotificationViewModel>();
+    return  Card(
+      child: CheckboxListTile(
+          title: Text(stringWeekday),
+          subtitle: _changeSubTitle(
+            isNotificationEnabled: isNotificationEnabled,
+            weekTimeOfDay: TimeOfDayOnWeek,
+          ),
+          activeColor: Colors.red,
+          checkColor: Colors.white,
+          secondary: Icon(Icons.notifications,
+          color: isNotificationEnabled ? Colors.red : Colors.grey,
+          // color: Colors.red,
+          ),
+          controlAffinity: ListTileControlAffinity.trailing,
+          value: isNotificationEnabled,
+          onChanged: (isChecked) async {
+            isNotificationEnabled = isChecked!;
+            vm.notificationCheckUpdate(dateTimeWeekday, isChecked);
+            if (isNotificationEnabled == true) {
+              //チェックがついたとき、通知ON
+              await _weekdayOnTimepicker(
+                  context,
+                  TimeOfDayOnWeek,
+                  notificationId,
+                  dateTimeWeekday,
+                  stringWeekday,
+                  isNotificationEnabled);
+              // setBoolTrue;
+              // vm.mondaySharedPrefsSetBool(true);
+              print(isNotificationEnabled);
 
-    return  CustomCheckBoxListTile(
-        titleText: Text(stringWeekday),
-        timeSubtitle: _changeSubTitle(
-          isNotificationEnabled: isNotificationEnabled,
-          weekTimeOfDay: TimeOfDayOnWeek,
-        ),
-        isNotificationEnabled: isNotificationEnabled,
-        onChanged: (isChecked) async {
-          isNotificationEnabled = isChecked!; //TODO これは変わる
-          vm.notificationCheckUpdate(dateTimeWeekday, isChecked);
-          if (isNotificationEnabled == true) {
-            //チェックがついたとき、通知ON
-            await _weekdayOnTimepicker(
-                context,
-                TimeOfDayOnWeek,
-                notificationId,
-                dateTimeWeekday,
-                stringWeekday,
-                isNotificationEnabled);
-            setBoolTrue;
-            // vm.mondaySharedPrefsSetBool(true);
-          } else {
-            //チェックが外れているとき、通知OFF（キャンセル）
-            await vm.setCancelNotification(
-                NotificationId: notificationId,
-                toastMessage: stringWeekday);
-            // vm.mondaySharedPrefsSetBool(false);
-            setBoolFalse;
+            } else {
+              //チェックが外れているとき、通知OFF（キャンセル）
+              await vm.setCancelNotification(
+                  NotificationId: notificationId,
+                  toastMessage: stringWeekday);
+              // vm.mondaySharedPrefsSetBool(false);
+              // setBoolFalse;
+              print(isNotificationEnabled);
+
+            }
           }
-        }
+      ),
     );
   }
  }
