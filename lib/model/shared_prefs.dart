@@ -26,15 +26,12 @@ class SharedPrefsManager {
   //曜日ごとのチェックボックスの値の保存と読み込み
   Future<bool> getBoolOnMonday() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    // print("getBoolOnMonday");
     return await prefs.getBool(PREF_KEY_NOTIFICATION_MONDAY_CHECK)  ?? false;
   }
 
   Future<bool> setBoolOnMonday(isChecked) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    print("setBoolOnMonday");
     return await prefs.setBool(PREF_KEY_NOTIFICATION_MONDAY_CHECK, isChecked);
-    // return await prefs.setBool(PREF_KEY_NOTIFICATION_MONDAY_CHECK, isChecked);
   }
 
   Future<bool> getBoolOnTuesday() async{
@@ -146,54 +143,57 @@ class SharedPrefsManager {
     return await prefs.getString(PREF_KEY_NOTIFICATION_SUNDAY_TIME) ?? DateTime.now().toString() ;
   }
 
-
-  Future<void> setTimeOnMonday(stringTimeOfDay) async{
+  Future<String> getTimeOnEveryday() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    print("stringTimeOfDay$stringTimeOfDay");
-
-    await prefs.setString(PREF_KEY_NOTIFICATION_MONDAY_TIME, stringTimeOfDay.toString()); //tODO stringTimeOfDayがNullになる
-    print("stringTimeOfDay$stringTimeOfDay");
-
-    // await prefs.setString(PREF_KEY_NOTIFICATION_MONDAY_TIME, stringTimeOfDay);
-    //  return null;
+    return await prefs.getString(PREF_KEY_NOTIFICATION_EVERYDAY_TIME) ?? DateTime.now().toString() ;
   }
 
-  Future<void> setTimeOnTuesday(stringTimeOfDay) async{
+
+
+  Future<void> setTimeOnMonday(stringTime) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(PREF_KEY_NOTIFICATION_MONDAY_TIME, stringTime);
+  }
+
+  Future<void> setTimeOnTuesday(stringTime) async{
   // Future<String?> setTimeOnTuesday(stringTimeOfDay) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(PREF_KEY_NOTIFICATION_TUESDAY_TIME, stringTimeOfDay);
+    await prefs.setString(PREF_KEY_NOTIFICATION_TUESDAY_TIME, stringTime);
     // return null;
   }
 
-  Future<void> setTimeOnWednesday(stringTimeOfDay) async{
+  Future<void> setTimeOnWednesday(stringTime) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(PREF_KEY_NOTIFICATION_WEDNESDAY_TIME, stringTimeOfDay);
+    await prefs.setString(PREF_KEY_NOTIFICATION_WEDNESDAY_TIME, stringTime);
     // return null;
   }
 
-  Future<void> setTimeOnThursday(stringTimeOfDay) async{
+  Future<void> setTimeOnThursday(stringTime) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(PREF_KEY_NOTIFICATION_THURSDAY_TIME, stringTimeOfDay);
+    await prefs.setString(PREF_KEY_NOTIFICATION_THURSDAY_TIME, stringTime);
     // return null;
   }
 
-  Future<void> setTimeOnFriday(stringTimeOfDay) async{
+  Future<void> setTimeOnFriday(stringTime) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(PREF_KEY_NOTIFICATION_FRIDAY_TIME, stringTimeOfDay);
-    // return null;
+    await prefs.setString(PREF_KEY_NOTIFICATION_FRIDAY_TIME, stringTime);
   }
 
-  Future<void> setTimeOnSaturday(stringTimeOfDay) async{
+  Future<void> setTimeOnSaturday(stringTime) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(PREF_KEY_NOTIFICATION_SATURDAY_TIME, stringTimeOfDay);
-    // return null;
+    await prefs.setString(PREF_KEY_NOTIFICATION_SATURDAY_TIME, stringTime);
   }
 
-  Future<void> setTimeOnSunday(stringTimeOfDay) async{
+  Future<void> setTimeOnSunday(stringTime) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(PREF_KEY_NOTIFICATION_SUNDAY_TIME, stringTimeOfDay);
-    // return null;
+    await prefs.setString(PREF_KEY_NOTIFICATION_SUNDAY_TIME, stringTime);
   }
+
+  Future<void> setTimeOnEveryday(stringTime) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(PREF_KEY_NOTIFICATION_EVERYDAY_TIME, stringTime);
+  }
+
 
   String _changeString(stringTimeOfDay) {
     if (stringTimeOfDay != null) {
@@ -208,6 +208,8 @@ class SharedPrefsManager {
     }
     return stringTimeOfDay;
   }
+
+
 
 
 

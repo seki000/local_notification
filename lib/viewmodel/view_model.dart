@@ -20,26 +20,32 @@ class FlutterLocalNotificationViewModel extends ChangeNotifier {
   }
   DateTime now = DateTime.now();
 
-  TimeOfDay everyDayTimeOfDay = TimeOfDay.now();
-  TimeOfDay mondayTimeOfDay = TimeOfDay.now();
-  TimeOfDay tuesdayTimeOfDay = TimeOfDay.now();
-  TimeOfDay wednesdayTimeOfDay = TimeOfDay.now();
-  TimeOfDay thursdayTimeOfDay = TimeOfDay.now();
-  TimeOfDay fridayTimeOfDay = TimeOfDay.now();
-  TimeOfDay saturdayTimeOfDay = TimeOfDay.now();
-  TimeOfDay sundayTimeOfDay = TimeOfDay.now();
+  // TimeOfDay everyDayTimeOfDay = TimeOfDay.now();
+  // TimeOfDay mondayTimeOfDay = TimeOfDay.now();
+  // TimeOfDay tuesdayTimeOfDay = TimeOfDay.now();
+  // TimeOfDay wednesdayTimeOfDay = TimeOfDay.now();
+  // TimeOfDay thursdayTimeOfDay = TimeOfDay.now();
+  // TimeOfDay fridayTimeOfDay = TimeOfDay.now();
+  // TimeOfDay saturdayTimeOfDay = TimeOfDay.now();
+  // TimeOfDay sundayTimeOfDay = TimeOfDay.now();
 
-  String stringMondayTime = "${TimeOfDay.now().hour}:${TimeOfDay.now().minute}";
-
+  DateTime everyDayDateTime = DateTime.now();
+  DateTime mondayDateTime = DateTime.now();
+  DateTime tuesdayDateTime = DateTime.now();
+  DateTime wednesdayDateTime = DateTime.now();
+  DateTime thursdayDateTime = DateTime.now();
+  DateTime fridayDateTime = DateTime.now();
+  DateTime saturdayDateTime = DateTime.now();
+  DateTime sundayDateTime = DateTime.now();
 
   //曜日の設定
-  var mondayDateTime = DateTime.monday;
-  var tuesdayDateTime = DateTime.tuesday;
-  var wednesdayDateTime = DateTime.wednesday;
-  var thursdayDateTime = DateTime.thursday;
-  var fridayDateTime = DateTime.friday;
-  var saturdayDateTime = DateTime.saturday;
-  var sundayDateTime = DateTime.sunday;
+  // var mondayDateTime = DateTime.monday;
+  // var tuesdayDateTime = DateTime.tuesday;
+  // var wednesdayDateTime = DateTime.wednesday;
+  // var thursdayDateTime = DateTime.thursday;
+  // var fridayDateTime = DateTime.friday;
+  // var saturdayDateTime = DateTime.saturday;
+  // var sundayDateTime = DateTime.sunday;
 
   //通知のID、被ると上書きされるので注意
   int mondayNotificationId = 1; //月曜日に通知ID
@@ -220,21 +226,18 @@ class FlutterLocalNotificationViewModel extends ChangeNotifier {
 
   Future<void> tuesdaySharedPrefsGetBool() async {
     isTuesdayNotificationEnabled = await _sharedPrefsManager.getBoolOnTuesday();
-    print("tuesdaySharedPrefsGetBool:${isTuesdayNotificationEnabled}");
     notifyListeners();
   }
 
 
   Future<void> wednesdaySharedPrefsGetBool() async {
-    isWednesdayNotificationEnabled =
-        await _sharedPrefsManager.getBoolOnWednesday();
+    isWednesdayNotificationEnabled = await _sharedPrefsManager.getBoolOnWednesday();
     notifyListeners();
   }
 
 
   Future<void> thursdaySharedPrefsGetBool() async {
-    isThursdayNotificationEnabled =
-        await _sharedPrefsManager.getBoolOnThursday();
+    isThursdayNotificationEnabled = await _sharedPrefsManager.getBoolOnThursday();
     notifyListeners();
   }
 
@@ -264,59 +267,50 @@ class FlutterLocalNotificationViewModel extends ChangeNotifier {
 
   //曜日ごとのTimeOfDay読み込み
   Future<void> mondaySharedPrefsGetTime() async {
-    print("mondaySharedPrefsGetTime${_sharedPrefsManager.getTimeOnMonday()}");
-    final timeOnMondayString = await _sharedPrefsManager.getTimeOnMonday(); //これはString
-    // print("timeOnMondayString$timeOnMondayString"); //TimeOfDay(08:30)
-    // String hour = timeOnMondayString.substring(10,12);//hour取れた
-    // print(hour);//
-    // String minute = timeOnMondayString.substring(13,15);//minute取れた
-    // print(minute);//
-    final timeOnMonday = DateTime.parse(timeOnMondayString);//StringをDateTimeに変換
-    mondayTimeOfDay = await TimeOfDay.fromDateTime(timeOnMonday);
-    print("mondaySharedPrefsGetTime$mondayTimeOfDay");
-    // stringMondayTime = await _sharedPrefsManager.getTimeOnMonday();
+    final timeOnString = await _sharedPrefsManager.getTimeOnMonday(); //StringをDateTime型へ
+    mondayDateTime = await DateTime.parse(timeOnString);
     notifyListeners();
   }
 
   Future<void> tuesdaySharedPrefsGetTime() async {
-    final timeOnTuesdayString = await _sharedPrefsManager.getTimeOnTuesday(); //StringをDateTime型へ
-    final timeOnTuesday = DateTime.parse(timeOnTuesdayString);
-    tuesdayTimeOfDay = await TimeOfDay.fromDateTime(timeOnTuesday);
+    final timeOnString = await _sharedPrefsManager.getTimeOnTuesday(); //StringをDateTime型へ
+    tuesdayDateTime = await DateTime.parse(timeOnString);
     notifyListeners();
   }
 
   Future<void> wednesdaySharedPrefsGetTime() async {
-    final timeOnWednesdayString = await _sharedPrefsManager.getTimeOnWednesday(); //StringをDateTime型へ
-    final timeOnWednesday = DateTime.parse(timeOnWednesdayString);
-    wednesdayTimeOfDay = await TimeOfDay.fromDateTime(timeOnWednesday);
+    final timeOnString = await _sharedPrefsManager.getTimeOnWednesday(); //StringをDateTime型へ
+    wednesdayDateTime = await DateTime.parse(timeOnString);
     notifyListeners();
   }
 
   Future<void> thursdaySharedPrefsGetTime() async {
-    final timeOnThursdayString = await _sharedPrefsManager.getTimeOnThursday(); //StringをDateTime型へ
-    final timeOnThursday = DateTime.parse(timeOnThursdayString);
-    thursdayTimeOfDay = await TimeOfDay.fromDateTime(timeOnThursday);
+    final timeOnString = await _sharedPrefsManager.getTimeOnThursday(); //StringをDateTime型へ
+    thursdayDateTime = await DateTime.parse(timeOnString);
     notifyListeners();
   }
 
   Future<void> fridaySharedPrefsGetTime() async {
-    final timeOnFridayString = await _sharedPrefsManager.getTimeOnFriday(); //StringをDateTime型へ
-    final timeOnFriday = DateTime.parse(timeOnFridayString);
-    fridayTimeOfDay = await TimeOfDay.fromDateTime(timeOnFriday);
+    final timeOnString = await _sharedPrefsManager.getTimeOnFriday(); //StringをDateTime型へ
+    fridayDateTime = await DateTime.parse(timeOnString);
     notifyListeners();
   }
 
   Future<void> saturdaySharedPrefsGetTime() async {
-    final timeOnSaturdayString = await _sharedPrefsManager.getTimeOnSaturday(); //StringをDateTime型へ
-    final timeOnSaturday = DateTime.parse(timeOnSaturdayString);
-    saturdayTimeOfDay = await TimeOfDay.fromDateTime(timeOnSaturday);
+    final timeOnString = await _sharedPrefsManager.getTimeOnSaturday(); //StringをDateTime型へ
+    saturdayDateTime = await DateTime.parse(timeOnString);
     notifyListeners();
   }
 
   Future<void> sundaySharedPrefsGetTime() async {
-    final timeOnSundayString = await _sharedPrefsManager.getTimeOnSunday(); //StringをDateTime型へ
-    final timeOnSunday = DateTime.parse(timeOnSundayString);
-    sundayTimeOfDay = await TimeOfDay.fromDateTime(timeOnSunday);
+    final timeOnString = await _sharedPrefsManager.getTimeOnSunday(); //StringをDateTime型へ
+    sundayDateTime = await DateTime.parse(timeOnString);
+    notifyListeners();
+  }
+
+  Future<void> everydaySharedPrefsGetTime() async {
+    final timeOnString = await _sharedPrefsManager.getTimeOnEveryday(); //StringをDateTime型へ
+   everyDayDateTime = await DateTime.parse(timeOnString);
     notifyListeners();
   }
 
@@ -405,34 +399,34 @@ class FlutterLocalNotificationViewModel extends ChangeNotifier {
         flnp, id, hour, minute, weekDayOnDateTime, stringWeekDay);
   }
 
-  void changeEveryDayTimeOfDay(TimeOfDay setTime) {
-    everyDayTimeOfDay = setTime;
+  void changeEveryDayTime(DateTime setTime) async{
+    everyDayDateTime = setTime;
+     await _sharedPrefsManager.setTimeOnEveryday(setTime.toString());
     notifyListeners();
   }
 
-  void changeWeekdayText(dateTimeTypeOnWeekDay, setTime) async{
-    if (dateTimeTypeOnWeekDay == mondayDateTime) {
-      mondayTimeOfDay = setTime;
-     // await _sharedPrefsManager.setTimeOnMonday(setTime);
-     await _sharedPrefsManager.setTimeOnMonday(_saveTime(setTime));
-    } else if (dateTimeTypeOnWeekDay == tuesdayDateTime) {
-      tuesdayTimeOfDay = setTime;
-      await _sharedPrefsManager.setTimeOnTuesday(_saveTime(setTime).toString());
-    } else if (dateTimeTypeOnWeekDay == wednesdayDateTime) {
-      wednesdayTimeOfDay = setTime;
-      await _sharedPrefsManager.setTimeOnWednesday(_saveTime(setTime).toString());
-    } else if (dateTimeTypeOnWeekDay == thursdayDateTime) {
-      thursdayTimeOfDay = setTime;
-      await _sharedPrefsManager.setTimeOnThursday(_saveTime(setTime).toString());
-    } else if (dateTimeTypeOnWeekDay == fridayDateTime) {
-      fridayTimeOfDay = setTime;
-      await _sharedPrefsManager.setTimeOnFriday(_saveTime(setTime).toString());
-    } else if (dateTimeTypeOnWeekDay == saturdayDateTime) {
-      saturdayTimeOfDay = setTime;
-      await _sharedPrefsManager.setTimeOnSaturday(_saveTime(setTime).toString());
-    } else if (dateTimeTypeOnWeekDay == sundayDateTime) {
-      sundayTimeOfDay = setTime;
-      await _sharedPrefsManager.setTimeOnSunday(_saveTime(setTime).toString());
+  void changeWeekdayTime(weekDay, setTime) async{
+    if (weekDay == DateTime.monday) {
+      mondayDateTime = setTime;
+     await _sharedPrefsManager.setTimeOnMonday(setTime.toString());
+    } else if (weekDay == DateTime.tuesday) {
+      tuesdayDateTime = setTime;
+      await _sharedPrefsManager.setTimeOnTuesday(setTime.toString());
+    } else if (weekDay == DateTime.wednesday) {
+      wednesdayDateTime = setTime;
+      await _sharedPrefsManager.setTimeOnWednesday(setTime.toString());
+    } else if (weekDay == DateTime.thursday) {
+      thursdayDateTime = setTime;
+      await _sharedPrefsManager.setTimeOnThursday(setTime.toString());
+    } else if (weekDay == DateTime.friday) {
+      fridayDateTime = setTime;
+      await _sharedPrefsManager.setTimeOnFriday(setTime.toString());
+    } else if (weekDay == DateTime.saturday) {
+      saturdayDateTime = setTime;
+      await _sharedPrefsManager.setTimeOnSaturday(setTime.toString());
+    } else if (weekDay == DateTime.sunday) {
+      sundayDateTime = setTime;
+      await _sharedPrefsManager.setTimeOnSunday(setTime.toString());
     }
     notifyListeners();
   }
@@ -444,42 +438,34 @@ class FlutterLocalNotificationViewModel extends ChangeNotifier {
   // }
 
   void notificationCheckUpdate(dateTimeTypeOnWeekDay, isChecked) async{
-    if (dateTimeTypeOnWeekDay == mondayDateTime) {
+    if (dateTimeTypeOnWeekDay == DateTime.monday) {
       isMondayNotificationEnabled = isChecked;
         await _sharedPrefsManager.setBoolOnMonday(isChecked);
-    } else if (dateTimeTypeOnWeekDay == tuesdayDateTime) {
+    } else if (dateTimeTypeOnWeekDay == DateTime.tuesday) {
       isTuesdayNotificationEnabled = isChecked;
         await _sharedPrefsManager.setBoolOnTuesday(isChecked);
-    } else if (dateTimeTypeOnWeekDay == wednesdayDateTime) {
+    } else if (dateTimeTypeOnWeekDay == DateTime.wednesday) {
       isWednesdayNotificationEnabled = isChecked;
         await _sharedPrefsManager.setBoolOnWednesday(isChecked);
-    } else if (dateTimeTypeOnWeekDay == thursdayDateTime) {
+    } else if (dateTimeTypeOnWeekDay == DateTime.thursday) {
       isThursdayNotificationEnabled = isChecked;
         await _sharedPrefsManager.setBoolOnThursday(isChecked);
-    } else if (dateTimeTypeOnWeekDay == fridayDateTime) {
+    } else if (dateTimeTypeOnWeekDay == DateTime.friday) {
       isFridayNotificationEnabled = isChecked;
         await _sharedPrefsManager.setBoolOnFriday(isChecked);
     } else if (dateTimeTypeOnWeekDay == DateTime.saturday) {
       isSaturdayNotificationEnabled = isChecked;
         await _sharedPrefsManager.setBoolOnSaturday(isChecked);
-    } else if (dateTimeTypeOnWeekDay == sundayDateTime) {
+    } else if (dateTimeTypeOnWeekDay == DateTime.sunday) {
       isSundayNotificationEnabled = isChecked;
         await _sharedPrefsManager.setBoolOnSunday(isChecked);
     }else if(dateTimeTypeOnWeekDay == null){ //毎日通知はDateTimeのWeekdayがないのでNull
       isEveryDayNotificationEnabled = isChecked;
+      await _sharedPrefsManager.setBoolOnEveryday(isChecked);
     }
-
     notifyListeners();
   }
 
-  _saveTime(setTime) {
-    DateTime(
-      now.year,//DateTime
-      now.month,//DateTime
-      now.day,//DateTime
-      setTime.hour, // TimeOfDay
-      setTime.minute, //TimeOfDay
-    ).toString();
-  }
+
 
 }
