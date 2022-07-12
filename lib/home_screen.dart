@@ -15,7 +15,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final vm = context.read<FlutterLocalNotificationViewModel>();
     vm.initTimeAndNotification(context);
     vm.requestPermissionsOnIos();
-    initSharePrefs();
   }
 
   Widget build(BuildContext context) {
@@ -90,72 +89,48 @@ class _HomeScreenState extends State<HomeScreen> {
                   notificationId: vm.everyDayNotificationId,
                   enumType: NotificationType.EVERYDAY,
                 ),
+                CheckboxListTile(
+                    title: Text("リピート通知(１分毎)"),
+                    value: vm.isRepeatOneMinutesNotificationEnabled,
+                    activeColor: Colors.red,
+                    checkColor: Colors.white,
+                    secondary: Icon(
+                      Icons.repeat,
+                      color: vm.isRepeatOneMinutesNotificationEnabled ? Colors.red : Colors.grey,
+                    ),
+                    onChanged: (isChecked) {
+                      vm.isRepeatOneMinutesNotificationEnabled = isChecked!;
+                      if (vm.isRepeatOneMinutesNotificationEnabled == true) {
+                      } else {
+                        vm.setCancelNotification(
+                            NotificationId: vm.repeatOneMinutesNotificationId,
+                            toastMessage: "リピート");
+                      }
+                      vm.repeatNotificationCheckUpdate(isChecked);
+                    }),
                 ListTile(
                   title: Text("全ての通知をキャンセルする"),
                   leading: Icon(Icons.cancel_outlined),
                   onTap: () {
                     showDialog(
-                        context: context, builder: (_) => _cancelAllAndDialog());
+                        context: context,
+                        builder: (_) => _cancelAllAndDialog());
                   },
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      child: Text(
-                        "1分ごとにリピート通知",
-                      ),
-                      onPressed: () async {
-                        vm.setRepeatOneMinutesNotification();
-                      },
-                    ),
-                    ElevatedButton(
-                        onPressed: () {
-                          vm.setCancelNotification(
-                              NotificationId: vm.repeatOneMinutesNotificationId,
-                              toastMessage: "リピート");
-                        },
-                        child: Text("リピート通知キャンセル")),
-                  ],
+                ListTile(
+                  title: Text("すぐに通知"),
+                  onTap: () async {
+                    await vm.setNowNotification();
+                  },
                 ),
-                Center(
-                  child: ElevatedButton(
-                      onPressed: () async {
-                        await vm.setNowNotification();
-                      },
-                      child: Text("すぐに通知")),
+                ListTile(
+                  title: Text("３秒後に通知"),
+                  onTap: () async {
+                    // await threeSecondsNotification();
+                    await vm.setThreeSecondsNotification(context: context);
+                  },
                 ),
-                Center(
-                  child: ElevatedButton(
-                      onPressed: () async {
-                        // await threeSecondsNotification();
-                        await vm.setThreeSecondsNotification(context: context);
-                      },
-                      child: Text("3秒後に通知(色々実験)")),
-                ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //   children: [
-                //     // ElevatedButton(
-                //     //   child: Text(
-                //     //     '毎日通知',
-                //     //   ),
-                //     //   onPressed: () async {
-                //     //     return _everydayOnTimepicker();
-                //     //   },
-                //     // ),
-                //     Text("vm.everyDay${vm.everyDayTimeOfDay.toString()}"),
-                //   ],
-                // ),
 
-                ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (_) => _cancelAllAndDialog());
-                      // vm.setCancelAllNotification();
-                    },
-                    child: Text("全ての通知をキャンセル")),
               ]),
             ),
           );
@@ -179,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
         vm.notificationCheckUpdate(null, false);
       },
       onConfirm: (selectedTime) {
-        vm.changeEveryDayTime(selectedTime);
+        vm.changeWeekdayTime(null, selectedTime);
         vm.setEverydayNotification(
             id: id,
             hour: selectedTime.hour,
@@ -210,65 +185,6 @@ class _HomeScreenState extends State<HomeScreen> {
         vm.notificationCheckUpdate(weekday, true);
       },
     );
-
-    // final vm = context.read<FlutterLocalNotificationViewModel>();
-    // final setTime =
-    //       await _everydayAndWeekdayCommonTimePicker(weekdayTime);
-    // if (setTime != null) {
-    //   //setTime（タイムピッカー）で何か設定したらtrue
-    //   vm.changeWeekdayText(WeekdayDateTime, setTime);
-    //   vm.setWeekday(
-    //       id, setTime.hour, setTime.minute, WeekdayDateTime, stringWeekDayText);
-    //
-    //   // vm.notificationCheckUpdate(WeekdayDateTime, true);
-    // } else if (setTime == null) {
-    //   //setTime（タイムピッカー）で何も設定しなかったたらFalse
-    //   vm.notificationCheckUpdate(WeekdayDateTime, false);
-    // }
-  }
-
-  // Future<TimeOfDay?> _everydayAndWeekdayCommonTimePicker(time) async {
-  //   return await showTimePicker(
-  //     context: context,
-  //     initialTime: time,
-  //     initialEntryMode: TimePickerEntryMode.dial,
-  //     helpText: "通知する時間を設定してください",
-  //     cancelText: "キャンセル",
-  //     confirmText: "決定",
-  //   );
-  // }
-
-  _changeSubTitle(
-      {required bool isNotificationEnabled, required DateTime weekTime}) {
-    // {required bool isNotificationEnabled, required TimeOfDay weekTime}) {
-    return isNotificationEnabled
-        ? Text("通知する時間:${weekTime.hour}時${weekTime.minute}分")
-        : Text("通知なし");
-  }
-
-  void initSharePrefs() {
-    final vm = context.read<FlutterLocalNotificationViewModel>();
-    vm.mondaySharedPrefsGetBool();
-    // print("mondaySharedPrefsGetBool${vm.mondaySharedPrefsGetBool}");
-    vm.tuesdaySharedPrefsGetBool();
-    vm.wednesdaySharedPrefsGetBool();
-    vm.thursdaySharedPrefsGetBool();
-    vm.fridaySharedPrefsGetBool();
-    vm.saturdaySharedPrefsGetBool();
-    vm.sundaySharedPrefsGetBool();
-    vm.everydaySharedPrefsGetBool();
-    vm.mondaySharedPrefsGetTime();
-    vm.tuesdaySharedPrefsGetTime();
-    vm.wednesdaySharedPrefsGetTime();
-    vm.thursdaySharedPrefsGetTime();
-    vm.fridaySharedPrefsGetTime();
-    vm.saturdaySharedPrefsGetTime();
-    vm.sundaySharedPrefsGetTime();
-    vm.everydaySharedPrefsGetTime();
-
-    // String timeOnMondayString = "TimeOfDay(08:30)";
-//   final timeOnMonday = DateTime.parse(timeOnMondayString);
-//   print(timeOnMonday);
   }
 
   Widget _notificationCheckListTile({
@@ -329,6 +245,13 @@ class _HomeScreenState extends State<HomeScreen> {
             }
           }
         });
+  }
+
+  _changeSubTitle(
+      {required bool isNotificationEnabled, required DateTime weekTime}) {
+    return isNotificationEnabled
+        ? Text("通知する時間:${weekTime.hour}時${weekTime.minute}分")
+        : Text("通知なし");
   }
 
   _cancelAllAndDialog() {

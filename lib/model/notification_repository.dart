@@ -11,8 +11,10 @@ import '../payload_screen.dart';
 
 class FlutterLocalNotificationRepository {
 
-  Future<void> initTimeAndNotification(context,
-      FlutterLocalNotificationsPlugin flnp) async {
+  final FlutterLocalNotificationsPlugin flnp =
+      FlutterLocalNotificationsPlugin();
+
+  Future<void> initTimeAndNotification(context) async {
     tz.initializeTimeZones(); //タイムゾーン初期化
     final timezone = await FlutterNativeTimezone
         .getLocalTimezone(); //端末のタイムゾーンを取得
@@ -94,7 +96,7 @@ class FlutterLocalNotificationRepository {
   }
 
   Future<void> requestPermissionsOnIos(
-      FlutterLocalNotificationsPlugin flnp) async {
+      ) async {
     await flnp
         .resolvePlatformSpecificImplementation<
         IOSFlutterLocalNotificationsPlugin>()
@@ -105,7 +107,7 @@ class FlutterLocalNotificationRepository {
     );
   }
 
-  Future<void> setNowNotification(FlutterLocalNotificationsPlugin flnp,
+  Future<void> setNowNotification(
       int quicklyNotificationId) async {
     await flnp.show(
       quicklyNotificationId, //IDは被ると上書きされるので、他と違う物を,
@@ -130,7 +132,6 @@ class FlutterLocalNotificationRepository {
   }
 
   Future<void> repeatOneMinutesNotification(
-      FlutterLocalNotificationsPlugin flnp,
       int repeatOneMinutesNotificationId) async {
     await flnp.periodicallyShow(
       repeatOneMinutesNotificationId,
@@ -156,7 +157,7 @@ class FlutterLocalNotificationRepository {
       gravity: ToastGravity.BOTTOM,);
   }
 
-  Future<void> threeSecondsNotification(FlutterLocalNotificationsPlugin flnp,
+  Future<void> threeSecondsNotification(
       int threeSecondsNotificationId, BuildContext context) async {
       return
         await flnp.zonedSchedule(
@@ -184,7 +185,7 @@ class FlutterLocalNotificationRepository {
 
   }
 
-   Future<void> cancelAllNotification(flnp) async {
+   Future<void> cancelAllNotification() async {
     await flnp.cancelAll();
     Fluttertoast.showToast(
       msg: "全ての通知をキャンセルしました",
@@ -192,7 +193,7 @@ class FlutterLocalNotificationRepository {
       gravity: ToastGravity.BOTTOM,);
   }
 
-  Future<void> cancelNotification(FlutterLocalNotificationsPlugin flnp,
+  Future<void> cancelNotification(
       int notificationId, String toastMessage) async {
     await flnp.cancel(notificationId);
     Fluttertoast.showToast(
@@ -227,7 +228,7 @@ class FlutterLocalNotificationRepository {
   // }
 
   Future<void> setWeekNotification(
-      FlutterLocalNotificationsPlugin flnp, id,
+      id,
       hour, minutes, week, weekText) async {
     await flnp.zonedSchedule(
         id, //IDは被ると上書きされるので、他と違う物を
@@ -290,7 +291,7 @@ class FlutterLocalNotificationRepository {
  //     }
  //  }
 
-  Future<void> setEveryDayNotification(flnp, id, hour, minutes, toastText) async {
+  Future<void> setEveryDayNotification( id, hour, minutes, toastText) async {
     await flnp.zonedSchedule(
         id, //IDは被ると上書きされるので、他と違う物を
         'Title:${hour}時${minutes}分に通知', //行けたかも

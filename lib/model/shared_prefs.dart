@@ -18,6 +18,7 @@ const PREF_KEY_NOTIFICATION_FRIDAY_CHECK = "friday_check_id";
 const PREF_KEY_NOTIFICATION_SATURDAY_CHECK = "saturday_check_id";
 const PREF_KEY_NOTIFICATION_SUNDAY_CHECK = "sunday_check_id";
 const PREF_KEY_NOTIFICATION_EVERYDAY_CHECK = "everyday_check_id";
+const PREF_KEY_NOTIFICATION_REPEAT_CHECK = "repeat_check_id";
 
 
 
@@ -209,58 +210,14 @@ class SharedPrefsManager {
     return stringTimeOfDay;
   }
 
+  Future<bool> setBoolOnRepeat(isChecked) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setBool(PREF_KEY_NOTIFICATION_REPEAT_CHECK, isChecked);
+  }
 
-
-
-
-
-
-
-  //
-  // Future<void> readInitTimeForMonday(monday) async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   prefs.getString(PREF_KEY_NOTIFICATION_MONDAY_TIME) ?? monday;
-  //
-  // }
-  //
-  // Future<void> updateInitTimeForMonday(weekday, time) async{
-  //     final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     if(weekday == DateTime.monday){
-  //       prefs.setString(PREF_KEY_NOTIFICATION_MONDAY_TIME, time);
-  //     }else if(weekday == DateTime.tuesday){
-  //       prefs.setString(PREF_KEY_NOTIFICATION_TUESDAY_TIME, time);
-  //     }else if(weekday == DateTime.wednesday){
-  //       prefs.setString(PREF_KEY_NOTIFICATION_WEDNESDAY_TIME, time);
-  //     }else if(weekday == DateTime.thursday){
-  //       prefs.setString(PREF_KEY_NOTIFICATION_THURSDAY_TIME, time);
-  //     }else if(weekday == DateTime.friday){
-  //       prefs.setString(PREF_KEY_NOTIFICATION_FRIDAY_TIME, time);
-  //     }else if(weekday == DateTime.saturday){
-  //       prefs.setString(PREF_KEY_NOTIFICATION_SATURDAY_TIME, time);
-  //     }else if(weekday == DateTime.sunday){
-  //       prefs.setString(PREF_KEY_NOTIFICATION_SUNDAY_TIME, time);
-  //     }
-  //
-  //     }
-
-
-
-  // Future<void> readInitCheck(Key, bool value) async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   prefs.getBool(Key, value);
-  // }
-  //
-  //
-  // Future<void> updateTime(Key, String time) async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   prefs.setString(Key, time);
-  // }
-  //
-  // Future<void> updateCheck(Key, bool value) async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   prefs.setBool(Key, value);
-  // }
-
-
+  Future<bool> getBoolOnRepeat() async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.getBool(PREF_KEY_NOTIFICATION_REPEAT_CHECK)  ?? false;
+  }
 
 }
