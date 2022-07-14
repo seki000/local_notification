@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:local_notification/parts/cancel_all_dialog.dart';
+import 'package:local_notification/parts/custom_checkbox_listtile.dart';
 import 'package:local_notification/viewmodel/view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -101,6 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onChanged: (isChecked) {
                       vm.isRepeatOneMinutesNotificationEnabled = isChecked!;
                       if (vm.isRepeatOneMinutesNotificationEnabled == true) {
+                        vm.setRepeatOneMinutesNotification();
                       } else {
                         vm.setCancelNotification(
                             NotificationId: vm.repeatOneMinutesNotificationId,
@@ -114,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: () {
                     showDialog(
                         context: context,
-                        builder: (_) => _cancelAllAndDialog());
+                        builder: (_) => CancelAllDialog());
                   },
                 ),
                 ListTile(
@@ -190,27 +193,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _notificationCheckListTile({
     required isNotificationEnabled,
     required weekOrEverydayTime,
-    weekday,
+    weekday, //曜日は毎日通知だといらないので曜日指定の時だけ入れる
     required stringMessageText,
     required notificationId,
     required enumType,
   }) {
     final vm = context.read<FlutterLocalNotificationViewModel>();
-    return CheckboxListTile(
-        title: Text(stringMessageText),
-        subtitle: _changeSubTitle(
-          isNotificationEnabled: isNotificationEnabled,
-          weekTime: weekOrEverydayTime,
-        ),
-        activeColor: Colors.red,
-        checkColor: Colors.white,
-        secondary: Icon(
-          Icons.notifications,
-          color: isNotificationEnabled ? Colors.red : Colors.grey,
-          // color: Colors.red,
-        ),
-        controlAffinity: ListTileControlAffinity.trailing,
-        value: isNotificationEnabled,
+    return  CustomCheckboxListTile(
+        stringMessageText: stringMessageText,
+        isNotificationEnabled: isNotificationEnabled,
+        weekOrEverydayTime: weekOrEverydayTime,
         onChanged: (isChecked) async {
           isNotificationEnabled = isChecked!;
           vm.notificationCheckUpdate(weekday, isChecked);
@@ -244,41 +236,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   toastMessage: stringMessageText);
             }
           }
-        });
-  }
-
-  _changeSubTitle(
-      {required bool isNotificationEnabled, required DateTime weekTime}) {
-    return isNotificationEnabled
-        ? Text("通知する時間:${weekTime.hour}時${weekTime.minute}分")
-        : Text("通知なし");
-  }
-
-  _cancelAllAndDialog() {
-    final vm = context.read<FlutterLocalNotificationViewModel>();
-    return AlertDialog(
-      title: Text(
-        "全ての通知をキャンセルしますか？",
-        style: TextStyle(fontSize: 14),
-        textAlign: TextAlign.center,
-      ),
-      content: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          TextButton(
-            onPressed: () {
-              vm.setCancelAllNotification();
-              Navigator.pop(context);
-            },
-            child: Text("はい"),
-          ),
-          TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("いいえ"))
-        ],
-      ),
+        }
     );
   }
 }

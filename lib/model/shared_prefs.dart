@@ -24,15 +24,10 @@ const PREF_KEY_NOTIFICATION_REPEAT_CHECK = "repeat_check_id";
 
 class SharedPrefsManager {
 
-  //曜日ごとのチェックボックスの値の保存と読み込み
+  //曜日ごとのチェックボックスの値の読み込み
   Future<bool> getBoolOnMonday() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.getBool(PREF_KEY_NOTIFICATION_MONDAY_CHECK)  ?? false;
-  }
-
-  Future<bool> setBoolOnMonday(isChecked) async{
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return await prefs.setBool(PREF_KEY_NOTIFICATION_MONDAY_CHECK, isChecked);
   }
 
   Future<bool> getBoolOnTuesday() async{
@@ -40,19 +35,9 @@ class SharedPrefsManager {
     return await prefs.getBool(PREF_KEY_NOTIFICATION_TUESDAY_CHECK)  ?? false;
   }
 
-  Future<bool> setBoolOnTuesday(isChecked) async{
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return await prefs.setBool(PREF_KEY_NOTIFICATION_TUESDAY_CHECK, isChecked);
-  }
-
   Future<bool> getBoolOnWednesday() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.getBool(PREF_KEY_NOTIFICATION_WEDNESDAY_CHECK)  ?? false;
-  }
-
-  Future<bool> setBoolOnWednesday(isChecked) async{
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return await prefs.setBool(PREF_KEY_NOTIFICATION_WEDNESDAY_CHECK, isChecked);
   }
 
   Future<bool> getBoolOnThursday() async{
@@ -60,29 +45,14 @@ class SharedPrefsManager {
     return await prefs.getBool(PREF_KEY_NOTIFICATION_THURSDAY_CHECK)  ?? false;
   }
 
-  Future<bool> setBoolOnThursday(isChecked) async{
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return await prefs.setBool(PREF_KEY_NOTIFICATION_THURSDAY_CHECK, isChecked);
-  }
-
   Future<bool> getBoolOnFriday() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.getBool(PREF_KEY_NOTIFICATION_FRIDAY_CHECK)  ?? false;
   }
 
-  Future<bool> setBoolOnFriday(isChecked) async{
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return await prefs.setBool(PREF_KEY_NOTIFICATION_FRIDAY_CHECK, isChecked);
-  }
-
   Future<bool> getBoolOnSaturday() async{
       final SharedPreferences prefs = await SharedPreferences.getInstance();
      return await prefs.getBool(PREF_KEY_NOTIFICATION_SATURDAY_CHECK)  ?? false;
-  }
-
-  Future<bool> setBoolOnSaturday(isChecked) async{
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return await prefs.setBool(PREF_KEY_NOTIFICATION_SATURDAY_CHECK, isChecked);
   }
 
   Future<bool> getBoolOnSunday() async{
@@ -95,6 +65,40 @@ class SharedPrefsManager {
     return await prefs.getBool(PREF_KEY_NOTIFICATION_EVERYDAY_CHECK)  ?? false;
   }
 
+
+
+
+  //曜日ごとのチェックボックスの値の保存
+  Future<bool> setBoolOnMonday(isChecked) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setBool(PREF_KEY_NOTIFICATION_MONDAY_CHECK, isChecked);
+  }
+
+  Future<bool> setBoolOnTuesday(isChecked) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setBool(PREF_KEY_NOTIFICATION_TUESDAY_CHECK, isChecked);
+  }
+
+  Future<bool> setBoolOnWednesday(isChecked) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setBool(PREF_KEY_NOTIFICATION_WEDNESDAY_CHECK, isChecked);
+  }
+
+  Future<bool> setBoolOnThursday(isChecked) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setBool(PREF_KEY_NOTIFICATION_THURSDAY_CHECK, isChecked);
+  }
+
+  Future<bool> setBoolOnFriday(isChecked) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setBool(PREF_KEY_NOTIFICATION_FRIDAY_CHECK, isChecked);
+  }
+
+  Future<bool> setBoolOnSaturday(isChecked) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setBool(PREF_KEY_NOTIFICATION_SATURDAY_CHECK, isChecked);
+  }
+
   Future<bool> setBoolOnSunday(isChecked) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.setBool(PREF_KEY_NOTIFICATION_SUNDAY_CHECK, isChecked);
@@ -105,13 +109,10 @@ class SharedPrefsManager {
     return await prefs.setBool(PREF_KEY_NOTIFICATION_EVERYDAY_CHECK, isChecked);
   }
 
-
-
-  //曜日ごとのTimeOfDay保存と読み込み
+  //曜日ごとのDateTime読み込み
   Future<String> getTimeOnMonday() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.getString(PREF_KEY_NOTIFICATION_MONDAY_TIME) ?? DateTime.now().toString() ;
-    // return await prefs.getString(PREF_KEY_NOTIFICATION_MONDAY_TIME) ?? DateTime.now().toString() ;
   }
 
   Future<String> getTimeOnTuesday() async{
@@ -150,29 +151,25 @@ class SharedPrefsManager {
   }
 
 
-
+  //曜日ごとのDateTime保存
   Future<void> setTimeOnMonday(stringTime) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(PREF_KEY_NOTIFICATION_MONDAY_TIME, stringTime);
   }
 
   Future<void> setTimeOnTuesday(stringTime) async{
-  // Future<String?> setTimeOnTuesday(stringTimeOfDay) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(PREF_KEY_NOTIFICATION_TUESDAY_TIME, stringTime);
-    // return null;
   }
 
   Future<void> setTimeOnWednesday(stringTime) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(PREF_KEY_NOTIFICATION_WEDNESDAY_TIME, stringTime);
-    // return null;
   }
 
   Future<void> setTimeOnThursday(stringTime) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(PREF_KEY_NOTIFICATION_THURSDAY_TIME, stringTime);
-    // return null;
   }
 
   Future<void> setTimeOnFriday(stringTime) async{
@@ -193,21 +190,6 @@ class SharedPrefsManager {
   Future<void> setTimeOnEveryday(stringTime) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(PREF_KEY_NOTIFICATION_EVERYDAY_TIME, stringTime);
-  }
-
-
-  String _changeString(stringTimeOfDay) {
-    if (stringTimeOfDay != null) {
-        DateTime(
-          DateTime.now().year,//DateTime
-          DateTime.now().month,//DateTime
-          DateTime.now().day,//DateTime
-          stringTimeOfDay.hour, // TimeOfDay
-          stringTimeOfDay.minute, //TimeOfDay
-        ).toString();
-        // これで　2022-06-22 10:00:00.000　こんな感じになる
-    }
-    return stringTimeOfDay;
   }
 
   Future<bool> setBoolOnRepeat(isChecked) async{

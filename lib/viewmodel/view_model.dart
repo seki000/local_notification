@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:local_notification/model/notification_repository.dart';
 import 'package:local_notification/model/shared_prefs.dart';
 

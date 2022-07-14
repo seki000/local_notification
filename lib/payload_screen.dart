@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 
 class PayloadScreen extends StatelessWidget {
-  // String payload;
-
-  // PayloadScreen({
-  //   // required this.payload
-  // });
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

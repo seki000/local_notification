@@ -215,18 +215,6 @@ class FlutterLocalNotificationRepository {
         : scheduled;
   }
 
-  // Future<void> weekdayNotification(context, flnp, id, int weekDayOnDateTime, String stringWeekDay, TimeOfDay weekTimeOfDay) async{
-  //   final initialTime = weekTimeOfDay;
-  //   final setTime =
-  //   await _everydayAndWeekdayCommonShowTimepicker(context, initialTime);
-  //   if (setTime != null) {
-  //     weekTimeOfDay = setTime;
-  //
-  //     //通知のとこ
-  //     setWeekNotification(flnp, id, setTime.hour, setTime.minute, weekDayOnDateTime, stringWeekDay);
-  //   }
-  // }
-
   Future<void> setWeekNotification(
       id,
       hour, minutes, week, weekText) async {
@@ -281,16 +269,6 @@ class FlutterLocalNotificationRepository {
     );
   }
 
- // Future<void> everyDayNotification(BuildContext context, FlutterLocalNotificationsPlugin flnp, int id, TimeOfDay everyDayTimeOfDay, String toastText) async{
- //     final initialTime = everyDayTimeOfDay; //TODO 動作確認後消す
- //     final TimeOfDay? setTime =
- //         await _everydayAndWeekdayCommonShowTimepicker(context, initialTime);
- //     if (setTime != null) {
- //       everyDayTimeOfDay = setTime;
- //       setEveryDayNotification(flnp, id, setTime.hour, setTime.minute, toastText);
- //     }
- //  }
-
   Future<void> setEveryDayNotification( id, hour, minutes, toastText) async {
     await flnp.zonedSchedule(
         id, //IDは被ると上書きされるので、他と違う物を
@@ -318,92 +296,6 @@ class FlutterLocalNotificationRepository {
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,);
   }
-
-
-
-
-
-
-
-  // //曜日ごとの通知
-  // Future<void> setMondayNotification(
-  //     context, flnp, id, int weekday, String stringWeekDay, TimeOfDay weekTimeOfDay) async{
-  //   final initialTime = weekTimeOfDay;
-  //   final setTime =
-  //   await _everydayAndWeekdayCommonShowTimepicker(context, initialTime);
-  //   if (setTime != null) {
-  //     weekTimeOfDay = setTime;
-  //     setWeekNotification(flnp, id, setTime.hour, setTime.minute, weekday, stringWeekDay);
-  //   }
-  // }
-  //
-  // Future<void> setTuesdayNotification(
-  //     context, flnp, id, int weekday, String stringWeekDay, TimeOfDay weekTimeOfDay) async{
-  //     final initialTime = weekTimeOfDay;
-  //   final setTime =
-  //   await _everydayAndWeekdayCommonShowTimepicker(context, initialTime);
-  //   if (setTime != null) {
-  //   weekTimeOfDay = setTime;
-  //   setWeekNotification(flnp, id, setTime.hour, setTime.minute, weekday, stringWeekDay);
-  //   }
-  // }
-  //
-  // Future<void> setWednesdayNotification(
-  //     context, flnp, id, int weekday, String stringWeekDay, TimeOfDay weekTimeOfDay) async{
-  //   final initialTime = weekTimeOfDay;
-  //   final setTime =
-  //   await _everydayAndWeekdayCommonShowTimepicker(context, initialTime);
-  //   if (setTime != null) {
-  //     weekTimeOfDay = setTime;
-  //     setWeekNotification(flnp, id, setTime.hour, setTime.minute, weekday, stringWeekDay);
-  //   }
-  // }
-  //
-  // Future<void> setThursdayNotification(
-  //     context, flnp, id, int weekday, String stringWeekDay, TimeOfDay weekTimeOfDay) async{
-  //   final initialTime = weekTimeOfDay;
-  //   final setTime =
-  //   await _everydayAndWeekdayCommonShowTimepicker(context, initialTime);
-  //   if (setTime != null) {
-  //     weekTimeOfDay = setTime;
-  //     setWeekNotification(flnp, id, setTime.hour, setTime.minute, weekday, stringWeekDay);
-  //   }
-  // }
-  //
-  // Future<void> setFridayNotification(
-  //     context, flnp, id, int weekday, String stringWeekDay, TimeOfDay weekTimeOfDay) async{
-  //   final initialTime = weekTimeOfDay;
-  //   final setTime =
-  //   await _everydayAndWeekdayCommonShowTimepicker(context, initialTime);
-  //   if (setTime != null) {
-  //     weekTimeOfDay = setTime;
-  //     setWeekNotification(flnp, id, setTime.hour, setTime.minute, weekday, stringWeekDay);
-  //   }
-  // }
-  //
-  // Future<void> setSaturdayNotification(
-  //     context, flnp, id, int weekday, String stringWeekDay, TimeOfDay weekTimeOfDay) async{
-  //   final initialTime = weekTimeOfDay;
-  //   final setTime =
-  //   await _everydayAndWeekdayCommonShowTimepicker(context, initialTime);
-  //   if (setTime != null) {
-  //     weekTimeOfDay = setTime;
-  //     setWeekNotification(flnp, id, setTime.hour, setTime.minute, weekday, stringWeekDay);
-  //   }
-  // }
-  //
-  // Future<void> setSundayNotification(
-  //     context, flnp, id, int weekday, String stringWeekDay, TimeOfDay weekTimeOfDay) async{
-  //   final initialTime = weekTimeOfDay;
-  //   final setTime =
-  //   await _everydayAndWeekdayCommonShowTimepicker(context, initialTime);
-  //   if (setTime != null) {
-  //     weekTimeOfDay = setTime;
-  //     setWeekNotification(flnp, id, setTime.hour, setTime.minute, weekday, stringWeekDay);
-  //   }
-  // }
-
-
 
 }
 
